@@ -1,29 +1,60 @@
 <template>
- <table>
-   <thead>
-     <tr>
-       <th v-for="(col,index) in configData" :key="index">{{col.title}}</th>
-     </tr>
-   </thead>
-   <tbody>
-     <tr v-for="(person,i) in childData" :key="i">
-       <td v-for="(col,index) in configData" :key="index">
-         <span v-if="!col.type">{{person[col.key]}}</span>
-         <span v-if="col.type==='date'">{{new Date(person[col.key]).toDateString()}}</span>
-       </td>
-     </tr>
-   </tbody>
- </table>
+  <section class="vue-table">
+    <table>
+      <thead>
+        <tr>
+          <th v-for="(obj, ind) in config" :key="ind">{{ obj.title }}</th>
+        </tr>
+      </thead>
+      <tbody v-if="childData.length>1">
+        <tr v-for="(row, index) in childData" :key="index">
+          <td v-for="(obj, ind) in config" :key="ind">
+            <span v-if="!obj.type">{{row[obj.key]}}</span>
+            <span v-if="obj.type === 'date'">{{new Date(row[obj.key]).toDateString()}}</span>
+          </td>
+        </tr>
+      </tbody>
+      <tbody v-if="!childData.length">
+        <tr>            
+          <td>No Data Found</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
 </template>
 
 <script>
-export default{
-  name:'Table',
-  props:['childData','configData']
-}
+export default {
+  props: ["childData", "config"],
+};
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style >
+.vue-table {
+  border: 1px solid #999;
+  color: #333;
+  overflow: auto;
+  margin-top: 30px;
+}
+.vue-table table {
+  border-collapse: collapse;
+  width: 100.1%;
+}
+.vue-table table th {
+  position: sticky;
+  top: 0;
+  background: #eda806;
+  padding: 10px 5px;
+  text-align: left;
+  border-bottom: 1px solid #999;
+  padding: 0.75rem;
+  vertical-align: top;
+}
 
+.vue-table table td {
+  padding: 5px 5px;
+  text-align: left;
+  padding: 0.75rem;
+  vertical-align: top;
+}
 </style>
